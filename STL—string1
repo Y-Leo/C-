@@ -1,0 +1,210 @@
+#include<iostream>
+using namespace std;
+#include<string>
+
+//构造String类对象
+void TestString1()
+{
+	string s1;               //无参构造函数
+	string s2("hello");      //用C格式字符串构造
+	string s3(s2);           //拷贝构造
+}
+
+//String类对象容量操作
+void TestString2()
+{
+	//注意：String 类对象支持直接用cin/cout进行输入和输出
+	string s("hello world!");
+	cout << s.size() << endl;
+	cout << s.length() << endl;
+    //size/length都返回字符串有效字符出长度
+	cout << s.capacity() << endl;
+	//capacity返回空间总大小，一般为15字节，需要扩容则以1.5倍大小扩容
+	//扩容之后一般不轻易减小，除非需要的字节数小于15
+	cout << s << endl;
+
+	s.clear();       //将s中的字符串清空，只是将size清0，不改变底层空间capacity的大小
+	cout << s.size() << endl;
+	cout << s.capacity() << endl;
+
+	s.resize(20,'!');    //将s中的有效字符个数增加到20个，多出来的位置用‘！’进行填充
+	cout << s.size() << endl;
+	cout << s.capacity() << endl;
+
+	s.resize(25);    //将s中的有效字符个数增加到25个，多出来的位置用‘/0’进行填充
+	cout << s.size() << endl;
+	cout << s.capacity() << endl;
+	cout << s << endl;
+
+	s.resize(5);    //将s中的有效字符个数减少到5个，从后往前依次删除
+	cout << s.size() << endl;
+	cout << s.capacity() << endl;
+	cout << s << endl;
+
+	s.reserve(100);     //将底层空间capacity扩容到100
+	cout << s.size() << endl;
+	cout << s.capacity() << endl;
+
+	s.reserve(30);     //原则上将底层空间capacity应该缩小到30，但是参数大于15则空间不会缩小
+	cout << s.size() << endl;
+	cout << s.capacity() << endl;
+
+	s.reserve(5);     //将底层空间capacity缩小到最小值15，因为参数小于15，所以capacity缩小到15
+	cout << s.size() << endl;
+	cout << s.capacity() << endl;
+
+	if (s.empty())   //检测字符串是否为空串，空返回true,否返回false
+	{
+		cout << "NULL empty!" << endl;
+	}
+	else
+	{
+		cout << "not NULL empty!" << endl;
+	}
+}
+
+void TestPushBack()     //通过这个程序可看出capacity每次以1.5倍大小扩容,但这是VS---PJ版本下，Linux--SGI版本下则是每次以2倍大小扩容
+{
+	string s;
+	size_t sz = s.capacity();
+	cout << "making s grow:\n";
+	for (int i = 0; i < 100; ++i)
+	{
+		s.push_back('c');
+		if (sz != s.capacity())
+		{
+			sz = s.capacity();
+			cout << "capacity changed:" << sz << '\n';
+		}
+	}
+}
+
+void TestPushBackReserve()    //优化的TestPushBack()；避免多次扩容
+{
+	string s;
+	s.reserve(100);     //仅需要一次扩容
+	size_t sz = s.capacity();
+	cout << "making s grow:\n";
+	for (int i = 0; i < 100; ++i)
+	{
+		s.push_back('c');
+		if (sz != s.capacity())
+		{
+			sz = s.capacity();
+			cout << "capacity changed:" << sz << '\n';
+		}
+	}
+}
+
+//String类对象的访问及遍历操作
+void TestString3()
+{
+	string s1("hello");
+	const string s2("Hello");
+
+	//访问
+	cout << s1 << " " << s2 << endl;
+	cout << s1[0] << " " << s2[0] << endl;
+
+	s1[0] = 'H';
+	cout << s1[0] << endl;
+	//cout << s1[10] << endl;   //越界，触发assert
+
+	// s2[0] = 'h';   //编译失败，因为const类不能被修改
+
+	cout << s1.at(2) << endl;
+	s1.at(2) = 'L';
+	//cout << s1.at(10) << endl;   //越界，抛出out_of_range异常
+
+	//3种遍历方式，第一种用得最多
+	//1、for + operator[]
+	for (size_t i=0; i < s1.size(); ++i)
+		cout << s1[i] << endl;
+
+	//2、迭代器
+
+	//C++98
+	/*string::iterator it = s1.begin();
+	while (it != s1.end())
+	{
+		cout << *it << endl;
+		++it;
+	}
+
+	string::reverse_iterator rit = s1.rbegin();
+	while (rit != s1.rend())
+	{
+		cout << *rit << endl;
+	}*/
+
+	//C++11
+	auto it = s1.begin();
+	while (it != s1.end())
+	{
+		cout << *it;
+		++it;
+	}
+	cout << endl;
+
+	//3、范围for
+	for (auto ch : s1)
+		cout << ch << endl;
+}
+
+//String类对象的修改操作
+void TestString4()
+{
+	//几种字符串追加方法  push_back()/+=/append()
+	string s1;
+	s1.push_back('L');
+	s1 += 'O';
+	s1 += "VE";
+	s1.append(" ");
+	string s2("YOU");
+	s1 += s2;
+	s1.append(1, ',');
+	s1.append("祖国");
+	s1.append(3, '!');
+	cout << s1 << endl;
+}
+
+//String类特殊操作
+void TestString5()
+{
+	//1、获取file文件后缀
+	string file1("String.cpp.cpp");
+	size_t pos1 = file1.rfind('.');
+	string filepos = file1.substr(pos1);
+	cout << filepos << endl;
+
+	//字符数字转数字---atoi
+	string s("1234567890");
+	int ret = atoi(s.c_str());
+	cout << ret << endl;
+
+	//find(从前往后找) rfind(从后往前找)
+	string s1("hello world!");
+	size_t pos = s1.find('H');
+	if (pos != string::npos)  //find()函数在找不到指定值的情况下会返回string::npos,表示“直到字符串结束”
+	{
+		cout << 'H' << " is in s" << pos << endl;
+	}
+	pos = s1.find("world"); 
+	if (pos != string::npos)
+	{
+		cout << "world" << " is in s" << pos << endl;
+	}
+
+}
+int main()
+{
+	//TestString1(); 
+	//TestString2();
+	//TestPushBack();
+	//TestPushBackReserve();
+	//TestString3();
+	//TestString4();
+	TestString5();
+
+	return 0;
+}
