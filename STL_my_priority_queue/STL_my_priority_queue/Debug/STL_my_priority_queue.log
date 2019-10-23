@@ -1,0 +1,30 @@
+﻿生成启动时间为 2019/10/22 17:02:13。
+项目“\\vmware-host\Shared Folders\桌面\git库\C-\STL_my_priority_queue\STL_my_priority_queue\STL_my_priority_queue.vcxproj”在节点 2 上(Build 个目标)。
+ClCompile:
+  C:\vs2013\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt test.cpp
+  test.cpp
+\\vmware-host\shared folders\桌面\git库\c-\stl_my_priority_queue\stl_my_priority_queue\test.cpp(31): error C2440: “return”: 无法从“const int”转换为“int &”
+          转换丢失限定符
+          \\vmware-host\shared folders\桌面\git库\c-\stl_my_priority_queue\stl_my_priority_queue\test.cpp(30): 编译类 模板 成员函数“int &lxy::priority_queue<int,std::vector<T,std::allocator<_Ty>>,std::less<_Ty>>::top(void) const”时
+          with
+          [
+              T=int
+  ,            _Ty=int
+          ]
+          \\vmware-host\shared folders\桌面\git库\c-\stl_my_priority_queue\stl_my_priority_queue\test.cpp(58): 参见对正在编译的函数 模板 实例化“int &lxy::priority_queue<int,std::vector<T,std::allocator<_Ty>>,std::less<_Ty>>::top(void) const”的引用
+          with
+          [
+              T=int
+  ,            _Ty=int
+          ]
+          \\vmware-host\shared folders\桌面\git库\c-\stl_my_priority_queue\stl_my_priority_queue\test.cpp(52): 参见对正在编译的类 模板 实例化“lxy::priority_queue<int,std::vector<T,std::allocator<_Ty>>,std::less<_Ty>>”的引用
+          with
+          [
+              T=int
+  ,            _Ty=int
+          ]
+已完成生成项目“\\vmware-host\Shared Folders\桌面\git库\C-\STL_my_priority_queue\STL_my_priority_queue\STL_my_priority_queue.vcxproj”(Build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:00.52
