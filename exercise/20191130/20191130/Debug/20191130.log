@@ -1,0 +1,3 @@
+﻿  test.cpp
+LINK : warning LNK4076: 增量状态文件“\\vmware-host\Shared Folders\桌面\git_code\C-\exercise\20191130\Debug\20191130.ilk”无效(将删除)；正以非增量方式链接
+  20191130.vcxproj -> \\vmware-host\Shared Folders\桌面\git_code\C-\exercise\20191130\Debug\20191130.exe
